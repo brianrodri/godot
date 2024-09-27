@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dcm7iqgsgm0sw"]
+
+[ext_resource type="Script" path="res://addons/gdscript_formatter/scripts/preference.gd" id="1_lmypd"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_sxinc"]
+alt_pressed = true
+shift_pressed = true
+pressed = true
+keycode = 70
+
+[sub_resource type="Shortcut" id="Shortcut_dixsv"]
+events = [SubResource("InputEventKey_sxinc")]
+
+[resource]
+script = ExtResource("1_lmypd")
+line_length = 120
+format_on_save = true
+shortcut = SubResource("Shortcut_dixsv")
+fast_but_unsafe = false
+gdformat_command = "gdformat"
+pip_command = "pip"
