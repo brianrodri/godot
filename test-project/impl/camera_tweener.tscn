@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://ki0f38hlckcm"]
+
+[ext_resource type="Script" path="res://impl/camera_tweener.gd" id="1_c7o6q"]
+
+[node name="CameraTweener" type="Node3D"]
+script = ExtResource("1_c7o6q")
+
+[node name="PerspectiveCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+
+[node name="OrthogonalCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+projection = 1
+
+[node name="FrustumCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+projection = 2

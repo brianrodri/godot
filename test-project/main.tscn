@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1abx1n5ljaic"]
+
+[ext_resource type="PackedScene" uid="uid://ki0f38hlckcm" path="res://impl/camera_tweener.tscn" id="1_318l3"]
+[ext_resource type="Script" path="res://main.gd" id="1_vmc28"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ya5qb"]
+albedo_color = Color(0.498039, 0.670588, 0.368627, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7wl7x"]
+material = SubResource("StandardMaterial3D_ya5qb")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wl413"]
+size = Vector2(10, 10)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_vmc28")
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Box" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_7wl7x")
+
+[node name="Floor" type="MeshInstance3D" parent="Terrain"]
+mesh = SubResource("PlaneMesh_wl413")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Terrain"]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 1, 5, 2)
+shadow_enabled = true
+
+[node name="CameraTweener" parent="." instance=ExtResource("1_318l3")]
+transform = Transform3D(0.545565, 0.431182, -0.718636, 0, 0.857493, 0.514495, 0.838067, -0.280691, 0.467818, -4.19034, 3, 2.72783)
