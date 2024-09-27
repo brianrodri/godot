@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 @export_subgroup("Position")
@@ -13,10 +14,11 @@ extends Node3D
 
 
 func _process(delta: float) -> void:
-	var input_vector := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_vector := (
+		Vector2.ZERO if Engine.is_editor_hint() else Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	)
 	xz_angle += input_vector.x * (xz_angular_velocity * delta)
 	xz_distance += input_vector.y * (xz_distance * xz_angular_velocity * delta)
-
-	var xz := Vector3.RIGHT.rotated(Vector3.UP, xz_angle) * xz_distance
-	var y := Vector3.UP * y_distance
-	camera.look_at_from_position(subject.position + xz + y, subject.position)
+	var xz_offset := Vector3.RIGHT.rotated(Vector3.UP, xz_angle) * xz_distance
+	var y_offset := Vector3.UP * y_distance
+	camera.look_at_from_position(subject.position + xz_offset + y_offset, subject.position)
