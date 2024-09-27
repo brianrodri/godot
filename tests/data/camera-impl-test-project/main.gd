@@ -1,25 +1,22 @@
 extends Node3D
 
-@onready var box := $Terrain/Box as MeshInstance3D
-@onready var camera_tweener := $CameraTweener as CameraTweener
+@export_subgroup("Position")
+@export_range(0.0, 25.0, 0.5, "or_greater", "suffix:meters") var xz_distance := 7.0
+@export_range(0.0, 25.0, 0.5, "or_greater", "suffix:meters") var y_distance := 5.0
 
-var _origin := Vector3.ZERO
-var _xz_distance := 5.0
-var _xz_speed := 3.0
-var _xz_angle := 0.0
-var _xz_angular_velocity := PI
-var _y_distance := 3.0
+@export_subgroup("Rotation")
+@export_range(-TAU, TAU, 0.001, "radians_as_degrees") var xz_angle := 0.0
+@export_range(-TAU, TAU, 0.001, "or_less", "or_greater", "suffix:radians/sec") var xz_angular_velocity := PI / 2
 
-
-func _ready() -> void:
-	_origin = box.position
+@onready var subject := $Terrain/Box as Node3D
+@onready var camera := $CameraTweener as Node3D
 
 
 func _process(delta: float) -> void:
-	var input := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	_xz_angle += _xz_angular_velocity * delta * input.x
-	_xz_distance += _xz_speed * delta * input.y
+	var input_vector := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	xz_angle += input_vector.x * (xz_angular_velocity * delta)
+	xz_distance += input_vector.y * (xz_distance * xz_angular_velocity * delta)
 
-	var xz := _xz_distance * Vector3.RIGHT.rotated(Vector3.UP, _xz_angle)
-	var y := _y_distance * Vector3.UP
-	camera_tweener.look_at_from_position(_origin + xz + y, _origin)
+	var xz := Vector3.RIGHT.rotated(Vector3.UP, xz_angle) * xz_distance
+	var y := Vector3.UP * y_distance
+	camera.look_at_from_position(subject.position + xz + y, subject.position)
